@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TodoTask</string>
+    <string name="search_string">Search for any task</string>
+    <string name="no_task_text">You don\'t have any task!</string>
+    <string name="add_task">Add Task</string>
+    <string name="app_title">To-Do</string>
+</resources>
