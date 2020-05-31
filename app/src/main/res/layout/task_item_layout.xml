@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:text="10:30 PM"
         android:textColor="@android:color/darker_gray"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/roboto_regular"
         android:textSize="16sp"/>
 
     <TextView
@@ -37,7 +37,7 @@
         android:layout_marginTop="10dp"
         android:textSize="20sp"
         android:textColor="@android:color/black"
-        android:fontFamily="sans-serif-black"/>
+        android:fontFamily="@font/roboto_bold"/>
 
     <ImageView
         android:id="@+id/taskDoneBtn"
@@ -68,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@id/taskTitle"
         app:layout_constraintStart_toEndOf="@id/taskPriority"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="14dp"
         android:text="PERSONAL"
         android:padding="10dp"
         android:textColor="@android:color/white"/>

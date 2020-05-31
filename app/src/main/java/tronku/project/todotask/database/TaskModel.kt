@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "task_table")
 data class TaskModel (
-    @PrimaryKey var id: Int,
+    @PrimaryKey(autoGenerate = true) var id: Int? = null,
     var title: String?,
     var hours: Short,
     var minutes: Short,

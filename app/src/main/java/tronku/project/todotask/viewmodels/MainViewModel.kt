@@ -8,12 +8,6 @@ import tronku.project.todotask.database.TaskModel
 
 class MainViewModel : ViewModel() {
 
-    fun addTask(db: RoomDB, task: TaskModel) {
-        viewModelScope.launch {
-            db.taskDao().insertTask(task)
-        }
-    }
-
     fun deleteTask(db: RoomDB, task: TaskModel) {
         viewModelScope.launch {
             db.taskDao().deleteTask(task)

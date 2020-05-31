@@ -46,17 +46,17 @@ class TasksAdapter(private val context: Context) : ListAdapter<TaskModel, TasksA
             when (priority.toInt()) {
                 1 -> {
                     itemView.taskPriority.text = "HIGH"
-                    itemView.taskPriority.compoundDrawables[0].colorFilter =
+                    itemView.taskPriority.background.colorFilter =
                         PorterDuffColorFilter(context.resources.getColor(R.color.priorityHigh), PorterDuff.Mode.SRC_IN)
                 }
                 2 -> {
                     itemView.taskPriority.text = "MEDIUM"
-                    itemView.taskPriority.compoundDrawables[0].colorFilter =
+                    itemView.taskPriority.background.colorFilter =
                         PorterDuffColorFilter(context.resources.getColor(R.color.priorityMedium), PorterDuff.Mode.SRC_IN)
                 }
                 3 -> {
                     itemView.taskPriority.text = "LOW"
-                    itemView.taskPriority.compoundDrawables[0].colorFilter =
+                    itemView.taskPriority.background.colorFilter =
                         PorterDuffColorFilter(context.resources.getColor(R.color.priorityLow), PorterDuff.Mode.SRC_IN)
                 }
             }

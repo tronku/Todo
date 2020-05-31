@@ -6,6 +6,7 @@
 
     <color name="darkYellow">#BC9808</color>
     <color name="lightGray">#F2F3F4</color>
+    <color name="darkGray">#B0B2B5</color>
 
     <color name="priorityHigh">#CB4335</color>
     <color name="priorityMedium">#F1C40F</color>
