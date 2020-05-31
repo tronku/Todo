@@ -32,14 +32,38 @@ class AddEditTaskActivity : AppCompatActivity() {
             addTaskBtn.visibility = View.VISIBLE
             updateTaskBtn.visibility = View.GONE
             addTaskBtn.setOnClickListener {
-                addTaskToDB(false)
+                addTaskToDB()
             }
         } else {
+            fillData()
             addTaskBtn.visibility = View.GONE
             updateTaskBtn.visibility = View.VISIBLE
             updateTaskBtn.setOnClickListener {
-                addTaskToDB(true)
+                updateTaskToDB()
             }
+        }
+    }
+
+    private fun fillData() {
+        val bundle = intent.getBundleExtra("task")
+        taskTitle.setText(bundle.getString("title", "Title"))
+        taskTime.text = getTime(bundle.getInt("hours", 10), bundle.getInt("mins", 0))
+        taskCategory.check(getCategoryId(bundle.getInt("category", 0)))
+        taskPriority.check(getPriorityId(bundle.getInt("priority", 0)))
+    }
+
+    private fun getCategoryId(id: Int): Int {
+        return if (id == 0)
+            R.id.personalCategory
+        else
+            R.id.workCategory
+    }
+
+    private fun getPriorityId(id: Int): Int {
+        return when (id) {
+            0 -> R.id.highPriority
+            1 -> R.id.mediumPriority
+            else -> R.id.lowPriority
         }
     }
 
@@ -72,7 +96,7 @@ class AddEditTaskActivity : AppCompatActivity() {
             "${hours-12}:$min PM"
     }
 
-    private fun addTaskToDB(isUpdate: Boolean) {
+    private fun addTaskToDB() {
         val title = taskTitle.text.toString()
         val categoryId = getCategory()
         val priorityId = getPriority()
@@ -85,10 +109,25 @@ class AddEditTaskActivity : AppCompatActivity() {
             priority = priorityId
         )
 
-        if (isUpdate)
-            viewModel.updateTask(db, task)
-        else
-            viewModel.addTask(db, task)
+        viewModel.addTask(db, task)
+    }
+
+    private fun updateTaskToDB() {
+        val title = taskTitle.text.toString()
+        val categoryId = getCategory()
+        val priorityId = getPriority()
+        val id = intent.getBundleExtra("task").getInt("id")
+
+        val task = TaskModel(
+            id = id,
+            title = title,
+            hours = taskHours,
+            minutes = taskMins,
+            category = categoryId,
+            priority = priorityId
+        )
+
+        viewModel.updateTask(db, task)
     }
 
     private fun getCategory(): Short {

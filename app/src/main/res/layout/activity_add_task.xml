@@ -196,7 +196,7 @@
             android:text="Add task"
             android:fontFamily="@font/roboto_medium"
             android:textColor="@android:color/white"
-            android:textSize="24sp"/>
+            android:textSize="20sp"/>
 
         <Button
             android:id="@+id/updateTaskBtn"

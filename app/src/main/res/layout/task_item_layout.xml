@@ -9,6 +9,7 @@
     android:layout_marginEnd="30dp"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
+    android:id="@+id/taskLayout"
     android:padding="20dp">
 
     <TextView
@@ -31,6 +32,7 @@
         app:layout_constraintEnd_toStartOf="@id/taskDoneBtn"
         android:text="Task title"
         android:ellipsize="marquee"
+        android:singleLine="true"
         android:scrollHorizontally="true"
         android:marqueeRepeatLimit="marquee_forever"
         android:freezesText="true"

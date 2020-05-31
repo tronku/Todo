@@ -31,6 +31,7 @@
         android:layout_marginTop="14dp"
         android:background="@drawable/search_bg"
         android:inputType="text"
+        android:focusedByDefault="false"
         android:singleLine="true"
         android:hint="@string/search_string"
         android:paddingStart="20dp"

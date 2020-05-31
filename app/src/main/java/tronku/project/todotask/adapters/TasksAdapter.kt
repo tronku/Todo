@@ -14,7 +14,14 @@ import tronku.project.todotask.R
 import tronku.project.todotask.database.TaskModel
 import kotlinx.android.synthetic.main.task_item_layout.view.*
 
-class TasksAdapter(private val context: Context) : ListAdapter<TaskModel, TasksAdapter.ViewHolder>(TaskDiffCallback) {
+enum class TaskClickAction {
+    DELETE,
+    UPDATE,
+    NAVIGATE
+}
+
+class TasksAdapter(private val context: Context, private val onTaskClickListener: OnTaskClickListener) :
+    ListAdapter<TaskModel, TasksAdapter.ViewHolder>(TaskDiffCallback) {
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bind(task: TaskModel) {
@@ -22,9 +29,35 @@ class TasksAdapter(private val context: Context) : ListAdapter<TaskModel, TasksA
             itemView.taskCategory.text = getCategory(task.category)
             itemView.taskTime.text = getTime(task.hours, task.minutes)
             setPriority(task.priority)
+            setDoneBtn(task.isDone)
+            setClickListeners(task)
+        }
 
-            if (task.isDone) {
+        private fun setDoneBtn(isDone: Boolean) {
+            if (isDone) {
+                itemView.taskDoneBtn.setImageResource(R.drawable.ic_tick_active)
                 itemView.taskTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            } else {
+                itemView.taskDoneBtn.setImageResource(R.drawable.ic_tick_inactive)
+                itemView.taskTitle.paintFlags = 0
+            }
+        }
+
+        private fun setClickListeners(task: TaskModel) {
+            itemView.taskDoneBtn.setOnClickListener {
+                task.isDone = !task.isDone
+                setDoneBtn(task.isDone)
+                onTaskClickListener.onTaskClicked(task, TaskClickAction.UPDATE)
+            }
+
+            itemView.taskDelete.setOnClickListener {
+                onTaskClickListener.onTaskClicked(task, TaskClickAction.DELETE)
+            }
+
+            itemView.taskLayout.setOnClickListener {
+                if (!task.isDone) {
+                    onTaskClickListener.onTaskClicked(task, TaskClickAction.NAVIGATE)
+                }
             }
         }
 
@@ -81,6 +114,10 @@ class TasksAdapter(private val context: Context) : ListAdapter<TaskModel, TasksA
             return oldItem == newItem
         }
 
+    }
+
+    interface OnTaskClickListener {
+        fun onTaskClicked(task: TaskModel, action: TaskClickAction)
     }
 
 }
