@@ -62,32 +62,34 @@ class TasksAdapter(private val context: Context, private val onTaskClickListener
         }
 
         private fun getCategory(categoryId: Short): String {
-            return if (categoryId.toInt() == 1)
+            return if (categoryId.toInt() == 0)
                 "PERSONAL"
             else
                 "WORK"
         }
 
         private fun getTime(hours: Short, min: Short): String {
-            return if (hours < 12)
-                "$hours:$min AM"
-            else
-                "${hours-12}:$min PM"
+            return when {
+                hours < 12 -> "$hours:$min AM"
+                hours > 12 -> "${hours-12}:$min PM"
+                hours.toInt() == 0 -> "${hours+12}:$min AM"
+                else -> "$hours:$min PM"
+            }
         }
 
         private fun setPriority(priority: Short) {
             when (priority.toInt()) {
-                1 -> {
+                0 -> {
                     itemView.taskPriority.text = "HIGH"
                     itemView.taskPriority.background.colorFilter =
                         PorterDuffColorFilter(context.resources.getColor(R.color.priorityHigh), PorterDuff.Mode.SRC_IN)
                 }
-                2 -> {
+                1 -> {
                     itemView.taskPriority.text = "MEDIUM"
                     itemView.taskPriority.background.colorFilter =
                         PorterDuffColorFilter(context.resources.getColor(R.color.priorityMedium), PorterDuff.Mode.SRC_IN)
                 }
-                3 -> {
+                2 -> {
                     itemView.taskPriority.text = "LOW"
                     itemView.taskPriority.background.colorFilter =
                         PorterDuffColorFilter(context.resources.getColor(R.color.priorityLow), PorterDuff.Mode.SRC_IN)

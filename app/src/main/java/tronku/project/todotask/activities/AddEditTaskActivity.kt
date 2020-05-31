@@ -47,7 +47,11 @@ class AddEditTaskActivity : AppCompatActivity() {
     private fun fillData() {
         val bundle = intent.getBundleExtra("task")
         taskTitle.setText(bundle.getString("title", "Title"))
-        taskTime.text = getTime(bundle.getInt("hours", 10), bundle.getInt("mins", 0))
+
+        taskHours = bundle.getInt("hours", 10).toShort()
+        taskMins = bundle.getInt("mins", 0).toShort()
+        taskTime.text = getTime(taskHours.toInt(), taskMins.toInt())
+
         taskCategory.check(getCategoryId(bundle.getInt("category", 0)))
         taskPriority.check(getPriorityId(bundle.getInt("priority", 0)))
 
@@ -71,9 +75,9 @@ class AddEditTaskActivity : AppCompatActivity() {
 
     private fun setClickListeners() {
         taskTime.setOnClickListener {
-            val cal = Calendar.getInstance()
-            val hours = cal.get(Calendar.HOUR_OF_DAY)
-            val minutes = cal.get(Calendar.MINUTE)
+            val hours = taskHours.toInt()
+            val minutes = taskMins.toInt()
+
             val timerDialog = TimePickerDialog(this@AddEditTaskActivity,
                 TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                     taskHours = hourOfDay.toShort()
@@ -92,10 +96,12 @@ class AddEditTaskActivity : AppCompatActivity() {
     }
 
     private fun getTime(hours: Int, min: Int): String {
-        return if (hours < 12)
-            "$hours:$min AM"
-        else
-            "${hours-12}:$min PM"
+        return when {
+            hours < 12 -> "$hours:$min AM"
+            hours > 12 -> "${hours-12}:$min PM"
+            hours == 0 -> "${hours+12}:$min AM"
+            else -> "$hours:$min PM"
+        }
     }
 
     private fun addTaskToDB() {
@@ -134,16 +140,16 @@ class AddEditTaskActivity : AppCompatActivity() {
 
     private fun getCategory(): Short {
         return when (taskCategory.checkedRadioButtonId) {
-            R.id.personalCategory -> 1.toShort()
-            else -> 2.toShort()
+            R.id.personalCategory -> 0.toShort()
+            else -> 1.toShort()
         }
     }
 
     private fun getPriority(): Short {
         return when(taskPriority.checkedRadioButtonId) {
-            R.id.highPriority -> 1.toShort()
-            R.id.mediumPriority -> 2.toShort()
-            else -> 3.toShort()
+            R.id.highPriority -> 0.toShort()
+            R.id.mediumPriority -> 1.toShort()
+            else -> 2.toShort()
         }
     }
 }
