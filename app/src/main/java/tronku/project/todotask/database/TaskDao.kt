@@ -6,8 +6,8 @@ import androidx.room.*
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * from task_table")
-    suspend fun getAllTasks(): LiveData<List<TaskModel>>
+    @Query("SELECT * from task_table ORDER BY priority ASC")
+    fun getAllTasks(): LiveData<List<TaskModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: TaskModel)
