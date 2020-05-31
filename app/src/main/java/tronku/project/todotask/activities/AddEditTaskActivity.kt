@@ -50,6 +50,8 @@ class AddEditTaskActivity : AppCompatActivity() {
         taskTime.text = getTime(bundle.getInt("hours", 10), bundle.getInt("mins", 0))
         taskCategory.check(getCategoryId(bundle.getInt("category", 0)))
         taskPriority.check(getPriorityId(bundle.getInt("priority", 0)))
+
+        taskTitle.setSelection(taskTitle.text.length)
     }
 
     private fun getCategoryId(id: Int): Int {
